@@ -12,13 +12,96 @@
 <body>
     <div class="page">
         <header class="header">
-
+            <img src="./images/logo.svg" class="header__logo" alt="Проект Место">
+            <div class="header__line"></div>
         </header>
         <main class="content">
+            <section class="profile">
+                <img src="./images/avatar.jpg" alt="Аватар" class="profile__avatar">
 
+                <div class="profile-info">
+                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+                    <a href="#" class="profile-info__edit-button"></a>
+                    <p class="profile-info__occupation">Исследователь океана</p>
+
+                </div>
+                <a href="#" class="profile__add-button">
+                </a>
+            </section>
+
+            <section class="popup popup_opened">
+
+                <!-- <section class="popup"> -->
+
+                <div class="popup__container">
+                    <a href="#" class="popup__close-button"></a>
+                    <form action="#" class="form" method="POST">
+                        <h3 class="form__title">
+                            Редактировать профиль
+                        </h3>
+                        <input type="text" class="form__field-name" value="Жак-Ив Кусто" placeholder="Имя">
+                        <input type="text" class="form__field-occupation" value="Исследователь океана"
+                            placeholder="О себе">
+                        <button type="submit" class="form__submit-button">Сохранить</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="elements">
+                <div class="element">
+                    <img src="./images/karachaevsk.jpg" alt="Качаевск" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Карачаевск</p>
+                        <a href="" class="element__like-button"></a>
+                    </div>
+                </div>
+
+                <div class="element">
+                    <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Гора Эльбрус</p>
+                        <a href="#" class="element__like-button"></a>
+                    </div>
+                </div>
+
+                <div class="element">
+                    <img src="./images/dombai.jpg" alt="Домбай" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Домбай</p>
+                        <a href="#" class="element__like-button"></a>
+                    </div>
+                </div>
+
+                <div class="element">
+                    <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Гора Эльбрус</p>
+                        <a href="#" class="element__like-button"></a>
+                    </div>
+                </div>
+
+                <div class="element">
+                    <img src="./images/dombai.jpg" alt="Домбай" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Домбай</p>
+                        <a href="#" class="element__like-button"></a>
+                    </div>
+                </div>
+
+                <div class="element">
+                    <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="element__image">
+                    <div class="element__container">
+                        <p class="element__title">Карачаево-Черкессия</p>
+                        <a href="#" class="element__like-button"></a>
+                    </div>
+                </div>
+
+            </section>
         </main>
         <footer class="footer">
-
+            <p class="footer__copyright">
+                &copy; 2020 Mesto Russia
+            </p>
         </footer>
     </div>
 </body>
