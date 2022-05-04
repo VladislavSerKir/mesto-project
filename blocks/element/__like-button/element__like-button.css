@@ -6,6 +6,9 @@
     width: 22px;
     height: 19px;
     transition: 0.3s ease-in-out;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .element__like-button:active {

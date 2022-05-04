@@ -9,4 +9,6 @@
     bottom: 0;
     left: 0;
     margin: auto;
+    justify-content: center;
+    align-items: center;
 }

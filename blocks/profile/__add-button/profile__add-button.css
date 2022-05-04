@@ -7,6 +7,9 @@
     width: 239px;
     height: 50px;
     transition: 0.3s ease-in-out;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
 }
 
 .profile__add-button:hover {

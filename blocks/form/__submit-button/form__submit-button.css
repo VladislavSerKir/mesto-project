@@ -10,6 +10,8 @@
     border: 0;
     padding: 15px 0 18px;
     transition: 0.3s ease-in-out;
+    border-radius: 2px;
+    margin-top: 19px;
 }
 
 .form__submit-button:hover {
@@ -23,5 +25,6 @@
         font-size: 14px;
         line-height: 17px;
         padding: 14px 0 14px;
+        margin-top: 16px;
     }
 }
