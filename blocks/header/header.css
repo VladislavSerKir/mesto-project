@@ -2,17 +2,11 @@
     margin: 0 auto;
     max-width: 880px;
     padding: 45px 0 36px;
-    border-bottom: 1px solid rgba(84, 84, 84, 1);
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
     margin-bottom: 40px;
 }
 
 @media screen and (max-width: 980px) {
-    .header {
-        max-width: 581px;
-    }
-}
-
-@media screen and (max-width: 681px) {
     .header {
         max-width: 581px;
     }
