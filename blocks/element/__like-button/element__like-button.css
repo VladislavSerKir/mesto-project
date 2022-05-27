@@ -13,8 +13,9 @@
 
 .element__like-button:active {
     background-image: url(../../../images/liked.svg);
-    opacity: 0.5;
+    /* opacity: 0; */
     transition: 0.3s ease-in-out;
+    /* background-color: #000; */
 }
 
 .element__like-button:hover {
