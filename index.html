@@ -46,17 +46,18 @@
             </p>
         </footer>
 
-        <div class="popup popup_type_user">
+        <div class="popup popup_type_profile">
             <div class="popup__container">
-                <button type="button" class="popup__close-button popup__close-button_type_user"></button>
-                <form action="#" class="form" id="form-user" name="user-data" method="POST">
+                <button type="button" class="popup__close-button popup__close-button_type_profile"></button>
+                <form action="#" class="form" id="form-profile" name="profile-data" method="POST">
                     <h3 class="form__title">
                         Редактировать профиль
                     </h3>
-                    <input type="text" name="person-name" class="form__field form__field_person_name" placeholder="Имя">
-                    <input type="text" name="person-about" class="form__field form__field_person_occupation"
-                        placeholder="О себе">
-                    <button type="submit" class="form__submit-button" id="#form-user-button">Сохранить</button>
+                    <input type="text" name="profile-name" class="form__field form__field_profile_name"
+                        placeholder="Имя" value="Жак-Ив Кусто">
+                    <input type="text" name="profile-about" class="form__field form__field_profile_occupation"
+                        placeholder="О себе" value="Исследователь океана">
+                    <button type="submit" class="form__submit-button" id="#form-profile-button">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -68,9 +69,9 @@
                     <h3 class="form__title">
                         Новое место
                     </h3>
-                    <input type="text" name="place-name" class="form__field form__field_card_name"
+                    <input type="text" name="card-name" class="form__field form__field_card_name"
                         placeholder="Название">
-                    <input type="text" name="place-link" class="form__field form__field_card_link"
+                    <input type="text" name="card-link" class="form__field form__field_card_link"
                         placeholder="Ссылка на картинку">
                     <button type="submit" class="form__submit-button" id="#form-card-button">Сохранить</button>
                 </form>
