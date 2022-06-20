@@ -49,14 +49,21 @@
         <div class="popup popup_type_profile">
             <div class="popup__container">
                 <button type="button" class="popup__close-button popup__close-button_type_profile"></button>
-                <form action="#" class="form" id="form-profile" name="profile-data" method="POST">
+                <form action="#" class="form" id="form-profile" name="profile-data" method="POST" novalidate>
                     <h3 class="form__title">
                         Редактировать профиль
                     </h3>
-                    <input type="text" name="profile-name" class="form__field form__field_profile_name"
-                        placeholder="Имя">
-                    <input type="text" name="profile-about" class="form__field form__field_profile_occupation"
-                        placeholder="О себе">
+                    <label class="form__element">
+                        <input type="text" name="name" class="form__field form__field_profile_name" placeholder="Имя"
+                            minlength="2" maxlength="40" id="profile-name" required>
+                        <span id="profile-name-error" class="form__field-error"></span>
+                    </label>
+                    <label class="form__element">
+                        <input type="text" name="about" class="form__field form__field_profile_occupation"
+                            placeholder="О себе" minlength="2" maxlength="200" id="profile-about" required>
+                        <span id="profile-about-error" class="form__field-error"></span>
+                    </label>
+
                     <button type="submit" class="form__submit-button" id="#form-profile-button">Сохранить</button>
                 </form>
             </div>
@@ -65,15 +72,21 @@
         <div class="popup popup_type_card">
             <div class="popup__container">
                 <button type="button" class="popup__close-button popup__close-button_type_card"></button>
-                <form action="#" class="form" id="form-card" name="card-data" method="POST">
+                <form action="#" class="form" id="form-card" name="card-data" method="POST" novalidate>
                     <h3 class="form__title">
                         Новое место
                     </h3>
-                    <input type="text" name="card-name" class="form__field form__field_card_name"
-                        placeholder="Название">
-                    <input type="text" name="card-link" class="form__field form__field_card_link"
-                        placeholder="Ссылка на картинку">
-                    <button type="submit" class="form__submit-button" id="#form-card-button">Сохранить</button>
+                    <label class="form__element">
+                        <input type="text" name="name" class="form__field form__field_card_name" placeholder="Название"
+                            minlength="2" maxlength="30" id="card-name" required>
+                        <span id="card-name-error" class="form__field-error"></span>
+                    </label>
+                    <label class="form__element">
+                        <input type="url" name="link" class="form__field form__field_card_link"
+                            placeholder="Ссылка на картинку" id="card-link" required>
+                        <span id="card-link-error" class="form__field-error"></span>
+                    </label>
+                    <button type="submit" class="form__submit-button" id="#form-card-button">Создать</button>
                 </form>
             </div>
         </div>
@@ -89,6 +102,7 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- <script src="form.js"></script>s -->
 </body>
 
 </html>
