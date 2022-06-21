@@ -6,17 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Проект Место</title>
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body>
     <div class="page">
         <header class="header">
-            <img src="./images/logo.svg" class="header__logo" alt="Проект Место">
+            <img src="<%=require('./images/logo.svg')%>" class="header__logo" alt="Проект Место">
         </header>
         <main class="content">
             <section class="profile">
-                <img src="./images/avatar.jpg" alt="Аватар" class="profile__avatar">
+                <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__avatar">
                 <div class="profile__info">
                     <h1 class="profile__title">Жак-Ив Кусто</h1>
                     <button type="button" class="profile__edit-button"></button>
@@ -30,7 +29,7 @@
                 <template id="card">
                     <article class="element">
                         <button type="button" class="element__delete-button"></button>
-                        <img src="./images/karachaevsk.jpg" alt="" class="element__image">
+                        <img src="<%=require('./images/karachaevsk.jpg')%>" alt="" class="element__image">
                         <div class="element__container">
                             <h2 class="element__title"></h2>
                             <button type="button" class="element__like-button"></button>
@@ -94,13 +93,12 @@
         <div class="popup popup_type_image">
             <div class="popup__container-image">
                 <button type="button" class="popup__close-button popup__close-button_type_image"></button>
-                <img src="./images/photo-1559426756-14c161f0dae8 1.png" alt="" class="popup__image">
+                <img src="<%=require('./images/photo-1559426756-14c161f0dae8 1.png')%>" alt="" class="popup__image">
                 <p class="popup__text"></p>
             </div>
         </div>
 
     </div>
-    <script src="./components/index.js" type="module"></script>
 </body>
 
 </html>
