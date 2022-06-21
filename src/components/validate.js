@@ -1,13 +1,4 @@
-export { formProp, showError, hideError, hasInvalidInput, checkInputValidity, toggleButtonState, setEventListeners, enableValidation };
-
-const formProp = {
-    formSelector: '.form',
-    inputSelector: '.form__field',
-    submitButtonSelector: '.form__submit-button',
-    inactiveButtonClass: 'form__submit-button_disabled',
-    inputErrorClass: 'form__field_type_error',
-    errorClass: 'form__field-error_active'
-}
+export { showError, hideError, hasInvalidInput, checkInputValidity, toggleButtonState, setEventListeners, enableValidation };
 
 function showError(formElement, inputElement, inputErrorClass) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
@@ -53,6 +44,7 @@ function setEventListeners(formElement, { inputSelector, submitButtonSelector, i
     inputsList.forEach(inputElement => {
         if ((inputElement.id === 'profile-name') || (inputElement.id === 'profile-about')) {
             checkInputValidity(formElement, inputElement, inputErrorClass);
+            toggleButtonState(submitButton, inputsList, inactiveButtonClass);
         }
         inputElement.addEventListener('input', () => {
             checkInputValidity(formElement, inputElement, inputErrorClass);

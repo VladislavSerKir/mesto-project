@@ -1,16 +1,11 @@
-export { imageCloseButton, popupProfile, profileEditButton, profileCloseButton, popupCard, cardEditButton, cardCloseButton, nameField, occupationField, formProfile, nameInput, occupationInput, formCard, cardInput, linkInput, closePopupEsc, openPopup, closePopup, openPropfilePopup, formProfileSubmit, formCardSubmit };
-import { cardsContainer, createCard } from './card.js';
-import { closePopup, closePopupEsc, openPopup, imageCloseButton, cardCloseButton, cardEditButton, profileCloseButton, profileEditButton, popupCard } from './utils.js';
+export { profileEditButton, cardEditButton, cardCloseButton, openPropfilePopup, openPopup, closePopup, closeOverlay, imageCloseButton, popupImages, profileCloseButton };
+import { cardEditButton, profileEditButton, popupCard } from './utils/utils.js';
+import { popupProfile, occupationInput, occupationField, nameField, nameInput } from '../pages/index.js'
 
-const popupProfile = document.querySelector('.popup_type_profile');
-const nameField = document.querySelector('.profile__title');
-const occupationField = document.querySelector('.profile__occupation');
-const formProfile = document.querySelector('#form-profile');
-const nameInput = formProfile.querySelector('.form__field_profile_name');
-const occupationInput = formProfile.querySelector('.form__field_profile_occupation');
-const formCard = document.querySelector('#form-card');
-const cardInput = formCard.querySelector('.form__field_card_name');
-const linkInput = formCard.querySelector('.form__field_card_link');
+const popupImages = document.querySelector('.popup_type_image');
+const imageCloseButton = popupImages.querySelector('.popup__close-button_type_image');
+const profileCloseButton = document.querySelector('.popup__close-button_type_profile');
+const cardCloseButton = document.querySelector('.popup__close-button_type_card');
 
 function openPropfilePopup() {
     nameInput.value = nameField.textContent;
@@ -18,23 +13,34 @@ function openPropfilePopup() {
     openPopup(popupProfile);
 }
 
-function formProfileSubmit(event) {
-    event.preventDefault();
-    nameField.textContent = nameInput.value;
-    occupationField.textContent = occupationInput.value;
-    closePopup(popupProfile);
+function openPopup(element) {
+    element.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupEsc);
 }
 
-function formCardSubmit(event) {
-    event.preventDefault();
-    const newCard = {};
-    newCard.name = cardInput.value;
-    newCard.link = linkInput.value;
-    cardInput.value = '';
-    linkInput.value = '';
-    cardsContainer.prepend(createCard(newCard));
-    closePopup(popupCard);
+function closePopup(element) {
+    element.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupEsc);
+
 }
 
-formCard.addEventListener('submit', formCardSubmit);
-formProfile.addEventListener('submit', formProfileSubmit);
+function closeOverlay(listOfPopups) {
+    listOfPopups.forEach((popupElem) => {
+        popupElem.addEventListener('click', (evt) => {
+            if (evt.target === popupElem) {
+                closePopup(popupElem)
+            }
+        });
+    })
+}
+
+function closePopupEsc(evt) {
+    const modal = document.querySelector('.popup_opened');
+    if (evt.key === 'Escape' && modal) {
+        closePopup(modal);
+    };
+}
+
+imageCloseButton.addEventListener('click', () => { closePopup(popupImages) });
+profileCloseButton.addEventListener('click', () => { closePopup(popupProfile) });
+cardCloseButton.addEventListener('click', () => { closePopup(popupCard) });
