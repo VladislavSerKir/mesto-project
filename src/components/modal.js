@@ -1,11 +1,12 @@
 export { profileEditButton, cardEditButton, cardCloseButton, openPropfilePopup, openPopup, closePopup, closeOverlay, imageCloseButton, popupImages, profileCloseButton };
-import { cardEditButton, profileEditButton, popupCard } from './utils/utils.js';
+import { cardEditButton, profileEditButton, popupCard, popupAvatar } from './utils.js';
 import { popupProfile, occupationInput, occupationField, nameField, nameInput } from '../pages/index.js'
 
 const popupImages = document.querySelector('.popup_type_image');
 const imageCloseButton = popupImages.querySelector('.popup__close-button_type_image');
 const profileCloseButton = document.querySelector('.popup__close-button_type_profile');
 const cardCloseButton = document.querySelector('.popup__close-button_type_card');
+const avatarCloseButton = document.querySelector('.popup__close-button_type_avatar');
 
 function openPropfilePopup() {
     nameInput.value = nameField.textContent;
@@ -44,3 +45,4 @@ function closePopupEsc(evt) {
 imageCloseButton.addEventListener('click', () => { closePopup(popupImages) });
 profileCloseButton.addEventListener('click', () => { closePopup(popupProfile) });
 cardCloseButton.addEventListener('click', () => { closePopup(popupCard) });
+avatarCloseButton.addEventListener('click', () => { closePopup(popupAvatar) });

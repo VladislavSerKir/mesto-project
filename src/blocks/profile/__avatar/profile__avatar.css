@@ -1,3 +1,37 @@
 .profile__avatar {
     border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.profile__avatar-link {
+    content: '';
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.profile__avatar-link::before {
+    content: '';
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.profile__avatar-link {
+    /* display: flex;
+    background-image: url(../../../images/edit-avatar.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    align-items: center; */
+    /* width: 26px;
+    height: 26px; */
+    /* width: 100%; */
+    cursor: pointer;
+    background: rgba(42, 44, 47, 0.8);
+
+    justify-content: center;
+    transition: 0.5s ease-in-out;
 }
