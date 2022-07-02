@@ -1,32 +1,5 @@
 export { cardsInfo, validationConfig };
 
-// const cardsInfo = [
-//     {
-//         name: 'Архыз',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-//     },
-//     {
-//         name: 'Челябинская область',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-//     },
-//     {
-//         name: 'Иваново',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-//     },
-//     {
-//         name: 'Камчатка',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-//     },
-//     {
-//         name: 'Холмогорский район',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-//     },
-//     {
-//         name: 'Байкал',
-//         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-//     }
-// ];
-
 const cardsInfo = []
 
 const validationConfig = {
@@ -37,3 +10,27 @@ const validationConfig = {
     inputErrorClass: 'form__field_type_error',
     errorClass: 'form__field-error_active'
 }
+
+// export const handleDeleteCard = (card) => {
+//     card.remove();
+//     card = null; // лучше занулять элемент
+// };
+
+//    handleDelete (cardElement, cardId) => {
+//     const handleRemoveCardSubmit = (evt) => {
+//         evt.preventDefault();
+
+//         removeCard(cardId)
+//             .then(() => {
+//                 handleDeleteCard(cardElement); // удаление карточки из размтетку  должно происходить только в случае успешного запроса
+//                 closeModalWindow(removeCardModalWindow);  // закрытие модальных окон должно происходить только в случае успешного запроса
+//             })
+//             .catch(err => console.log(`При удалении карточки: ${err}`));
+//         removeCardModalWindow.removeEventListener('submit', handleRemoveCardSubmit);
+//     };
+//     removeCardModalWindow.addEventListener('submit', handleRemoveCardSubmit);
+
+//     openModalWindow(removeCardModalWindow);
+// }
+
+// deleteButton.addEventListener('click', () => handleDelete(cardElement, cardId));

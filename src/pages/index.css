@@ -23,6 +23,7 @@
 @import url(../blocks/element/__delete-button/element__delete-button.css);
 @import url(../blocks/element/__likes-info/element__likes-info.css);
 @import url(../blocks/element/__likes/element__likes.css);
+@import url(../blocks/element/__delete-button/_disabled/element__delete-button_disabled.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
@@ -35,6 +36,7 @@
 @import url(../blocks/form/__field/_type/form__field_type_error.css);
 @import url(../blocks/form/__field-error/form__field-error.css);
 @import url(../blocks/form/__element/form__element.css);
+@import url(../blocks/form/__title/_type/form__title_type_confirm.css);
 
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__container/popup__container.css);

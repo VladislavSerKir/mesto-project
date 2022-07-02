@@ -1,7 +1,6 @@
-// import { reject, resolve } from "core-js/fn/promise"
-
-export { config, getUserInfo, loadedProfileInfo, editProfileInfo, addNewCard, changeAvatar }
-import { nameField, occupationField, renderCards, cardInput, linkInput, avatarField } from '../pages/index.js'
+export { config, getUserInfo, editProfileInfo, addNewCard, changeAvatar, removeCard, likeCard, removeLikeCard, getCardsInfo, getCardLikes }
+import { nameField, occupationField, renderCards, avatarField, formProfileButton, formAvatarButton, profileID } from '../pages/index.js'
+import { cardsContainer, createCard, handleDeleteCard } from './card.js'
 
 const config = {
     baseUrl: 'https://nomoreparties.co/v1',
@@ -11,11 +10,9 @@ const config = {
         'Content-Type': 'application/json'
     }
 }
-const loadedProfileInfo = getUserInfo(config);
 
 function promise(res) {
-    // console.log(res);
-    return res.ok ? res.json() : Promise.reject(`Ошибка:${res.status}`)
+    return res.ok ? res.json() : Promise.reject(`Ошибка:${res.status} ${res.statusText}`)
 }
 
 function getUserInfo(config) {
@@ -28,15 +25,16 @@ function getUserInfo(config) {
     })
         .then(promise)
         .then(data => {
-            // console.log(data)
             nameField.textContent = data.name;
             occupationField.textContent = data.about;
             avatarField.src = data.avatar
-            // console.log(data)
+            profileID.id = data._id
             return data
         })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+        })
 }
-getUserInfo(config)
 
 function getCardsInfo(config) {
     return fetch(`${config.baseUrl}/${config.cohortId}/cards`, {
@@ -48,13 +46,13 @@ function getCardsInfo(config) {
     })
         .then(promise)
         .then(cards => {
-            console.log(cards)
             renderCards(cards)
             return cards
         })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+        })
 }
-getCardsInfo(config)
-
 
 function editProfileInfo(config, name, about) {
     return fetch(`${config.baseUrl}/${config.cohortId}/users/me`, {
@@ -70,10 +68,13 @@ function editProfileInfo(config, name, about) {
     })
         .then(promise)
         .then(data => {
-            // console.log(data)
             nameField.textContent = data.name;
             occupationField.textContent = data.about;
+            formProfileButton.textContent = 'Сохранить'
             return data
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
 }
 
@@ -91,9 +92,30 @@ function addNewCard(config, cardInfo) {
     })
         .then(promise)
         .then(data => {
-            cardInfo.name = data.name;
-            cardInfo.link = data.link;
+            console.log(`Карточка создана id: ${data._id}`)
+            cardsContainer.prepend(createCard(data, handleDeleteCard));
             return data
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+        })
+}
+
+function removeCard(config, cardID) {
+    return fetch(`${config.baseUrl}/${config.cohortId}/cards/${cardID}`, {
+        method: 'DELETE',
+        headers: {
+            authorization: config.headers.authorization,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(promise)
+        .then(cardID => {
+            console.log(cardID)
+            return cardID
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
 }
 
@@ -111,27 +133,147 @@ function changeAvatar(config, link) {
         .then(promise)
         .then(data => {
             avatarField.src = data.avatar;
-            console.log(avatarField)
+            formAvatarButton.textContent = 'Сохранить'
+            return data
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+        })
+}
+
+// function likeCard(config, cardID, cardLikes, event) {
+//     return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${cardID}`, {
+//         method: 'PUT',
+//         headers: {
+//             authorization: config.headers.authorization,
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(promise)
+//         .then(data => {
+//             cardLikes.textContent = data.likes.length;
+//             event.target.classList.add('element__like-button_liked_true');
+//             return data
+//         })
+// }
+
+// function removeLikeCard(config, cardID, cardLikes, event) {
+//     return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${cardID}`, {
+//         method: 'DELETE',
+//         headers: {
+//             authorization: config.headers.authorization,
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(promise)
+//         .then(data => {
+//             if (data.likes.length) {
+//                 cardLikes.textContent = data.likes.length;
+//             } else {
+//                 cardLikes.textContent = '';
+//             }
+//             event.target.classList.remove('element__like-button_liked_true');
+//             return data
+//         })
+// }
+
+// function getCardLikes(config, cardID, cardLikes, profileID, event) {
+//     return fetch(`${config.baseUrl}/${config.cohortId}/cards`, {
+//         method: 'GET',
+//         headers: {
+//             authorization: config.headers.authorization,
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(promise)
+//         .then(data => {
+//             return data.find((card) => {
+//                 if (card._id === cardID) {
+//                     return card.likes
+//                 }
+//             })
+
+//         })
+//         .then(data => {
+//             let profileLiked = data.likes.some((likedCard) => {
+//                 if (likedCard._id === profileID) {
+//                     return true
+//                 }
+//             })
+//             profileLiked ? removeLikeCard(config, cardID, cardLikes, event) : likeCard(config, cardID, cardLikes, event);
+//         })
+//         .catch((err) => {
+//             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+//         })
+// }
+
+function getCardLikes(config, event, cardLikes, profileID) {
+    return fetch(`${config.baseUrl}/${config.cohortId}/cards`, {
+        method: 'GET',
+        headers: {
+            authorization: config.headers.authorization,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(promise)
+        .then(data => {
+            return data.find((card) => {
+                if (card._id === event.target.closest('.element').id) {
+                    return card.likes
+                }
+            })
+
+        })
+        .then(data => {
+            const profileLiked = data.likes.some((likedCard) => {
+                if (likedCard._id === profileID) {
+                    return true
+                }
+            })
+            profileLiked ? removeLikeCard(config, event, cardLikes) : likeCard(config, event, cardLikes);
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+        })
+}
+
+function likeCard(config, event, cardLikes) {
+    return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${event.target.closest('.element').id}`, {
+        method: 'PUT',
+        headers: {
+            authorization: config.headers.authorization,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(promise)
+        .then(data => {
+            cardLikes.textContent = data.likes.length;
+            event.target.classList.add('element__like-button_liked_true');
             return data
         })
 }
 
+function removeLikeCard(config, event, cardLikes) {
+    return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${event.target.closest('.element').id}`, {
+        method: 'DELETE',
+        headers: {
+            authorization: config.headers.authorization,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(promise)
+        .then(data => {
+            if (data.likes.length) {
+                cardLikes.textContent = data.likes.length;
+            } else {
+                cardLikes.textContent = '';
+            }
+            event.target.classList.remove('element__like-button_liked_true');
+            return data
+        })
+}
 
-
-// const getUserInfo = new Promise(function (resolve, reject) {
-//     () => {
-//         fetch(`${config.baseUrl}/${config.cohortId}/users/me`, {
-//             method: 'GET',
-//             headers: {
-//                 authorization: config.headers.authorization,
-//                 'Content-Type': 'application/json'
-//             }
-//         })
-//     }
-// })
-// getUserInfo.then((res) => {
-//     return res.ok ? res.json() : Promise.reject('Ошибка')
-// })
-// .catch((err) => {
-//     console.log(err)
-// })
+getUserInfo(config)
+    .then(() => {
+        getCardsInfo(config)
+    })

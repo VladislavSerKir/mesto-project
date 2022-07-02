@@ -1,4 +1,4 @@
-export { popupImage, popupText, selectImage, imageCloseButton, listOfPopups, cardEditButton, profileEditButton, popupCard, avatarEditButton, popupAvatar }
+export { popupImage, popupText, selectImage, imageCloseButton, listOfPopups, cardEditButton, profileEditButton, popupCard, avatarEditButton, popupAvatar, popupConfirm }
 import { openPopup, popupImages } from "./modal.js";
 
 const imageCloseButton = popupImages.querySelector('.popup__close-button_type_image');
@@ -10,6 +10,8 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const cardEditButton = document.querySelector('.profile__add-button');
 const avatarEditButton = document.querySelector('.profile__avatar-link');
 const popupAvatar = document.querySelector('.popup_type_avatar');
+const popupConfirm = document.querySelector('.popup_type_confirm');
+// const confirmModalButton = document.querySelector('.profile__avatar-link');
 
 function selectImage(elem) {
     const cardSrc = elem.link;
