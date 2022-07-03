@@ -1,6 +1,5 @@
 export { config, getUserInfo, editProfileInfo, addNewCard, changeAvatar, removeCard, likeCard, removeLikeCard, getCardsInfo, getCardLikes }
-import { nameField, occupationField, renderCards, avatarField, formProfileButton, formAvatarButton, profileID } from '../pages/index.js'
-import { cardsContainer, createCard, handleDeleteCard } from './card.js'
+import { nameField, occupationField, renderCards, avatarField, profileID } from '../pages/index.js'
 
 const config = {
     baseUrl: 'https://nomoreparties.co/v1',
@@ -24,16 +23,6 @@ function getUserInfo(config) {
         }
     })
         .then(promise)
-        .then(data => {
-            nameField.textContent = data.name;
-            occupationField.textContent = data.about;
-            avatarField.src = data.avatar
-            profileID.id = data._id
-            return data
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function getCardsInfo(config) {
@@ -45,13 +34,6 @@ function getCardsInfo(config) {
         }
     })
         .then(promise)
-        .then(cards => {
-            renderCards(cards)
-            return cards
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function editProfileInfo(config, name, about) {
@@ -67,15 +49,6 @@ function editProfileInfo(config, name, about) {
         })
     })
         .then(promise)
-        .then(data => {
-            nameField.textContent = data.name;
-            occupationField.textContent = data.about;
-            formProfileButton.textContent = 'Сохранить'
-            return data
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function addNewCard(config, cardInfo) {
@@ -91,13 +64,6 @@ function addNewCard(config, cardInfo) {
         })
     })
         .then(promise)
-        .then(data => {
-            cardsContainer.prepend(createCard(data, handleDeleteCard));
-            return data
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function removeCard(config, cardID) {
@@ -109,12 +75,6 @@ function removeCard(config, cardID) {
         }
     })
         .then(promise)
-        .then(cardID => {
-            return cardID
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function changeAvatar(config, link) {
@@ -129,14 +89,6 @@ function changeAvatar(config, link) {
         })
     })
         .then(promise)
-        .then(data => {
-            avatarField.src = data.avatar;
-            formAvatarButton.textContent = 'Сохранить'
-            return data
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function getCardLikes(config, event, cardLikes, profileID) {
@@ -148,25 +100,6 @@ function getCardLikes(config, event, cardLikes, profileID) {
         }
     })
         .then(promise)
-        .then(data => {
-            return data.find((card) => {
-                if (card._id === event.target.closest('.element').id) {
-                    return card.likes
-                }
-            })
-
-        })
-        .then(data => {
-            const profileLiked = data.likes.some((likedCard) => {
-                if (likedCard._id === profileID) {
-                    return true
-                }
-            })
-            profileLiked ? removeLikeCard(config, event, cardLikes) : likeCard(config, event, cardLikes);
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 function likeCard(config, event, cardLikes) {
@@ -178,11 +111,6 @@ function likeCard(config, event, cardLikes) {
         }
     })
         .then(promise)
-        .then(data => {
-            cardLikes.textContent = data.likes.length;
-            event.target.classList.add('element__like-button_liked_true');
-            return data
-        })
 }
 
 function removeLikeCard(config, event, cardLikes) {
@@ -194,18 +122,17 @@ function removeLikeCard(config, event, cardLikes) {
         }
     })
         .then(promise)
-        .then(data => {
-            if (data.likes.length) {
-                cardLikes.textContent = data.likes.length;
-            } else {
-                cardLikes.textContent = '';
-            }
-            event.target.classList.remove('element__like-button_liked_true');
-            return data
-        })
 }
 
-getUserInfo(config)
-    .then(() => {
-        getCardsInfo(config)
+Promise.all([getUserInfo(config), getCardsInfo(config)])
+    .then(([userData, cards]) => {
+        nameField.textContent = userData.name;
+        occupationField.textContent = userData.about;
+        avatarField.src = userData.avatar
+        profileID.id = userData._id
+        renderCards(cards)
+        return userData, cards
     })
+    .catch(err => {
+        console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+    });

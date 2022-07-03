@@ -1,13 +1,20 @@
-export { profileEditButton, cardEditButton, cardCloseButton, openPropfilePopup, openPopup, closePopup, closeOverlay, imageCloseButton, popupImages, profileCloseButton, confirmCloseButton };
-import { cardEditButton, profileEditButton, popupCard, popupAvatar, popupConfirm } from './utils.js';
+export { profileEditButton, cardEditButton, openPropfilePopup, openPopup, closePopup, popupImages };
+import { cardEditButton, profileEditButton } from './utils.js';
 import { popupProfile, occupationInput, occupationField, nameField, nameInput } from '../pages/index.js';
 
 const popupImages = document.querySelector('.popup_type_image');
-const imageCloseButton = popupImages.querySelector('.popup__close-button_type_image');
-const profileCloseButton = document.querySelector('.popup__close-button_type_profile');
-const cardCloseButton = document.querySelector('.popup__close-button_type_card');
-const avatarCloseButton = document.querySelector('.popup__close-button_type_avatar');
-const confirmCloseButton = document.querySelector('.popup__close-button_type_confirm');
+const popups = document.querySelectorAll('.popup');
+
+popups.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup)
+        }
+        if (evt.target.classList.contains('popup__close-button')) {
+            closePopup(popup)
+        }
+    })
+})
 
 function openPropfilePopup() {
     nameInput.value = nameField.textContent;
@@ -25,25 +32,9 @@ function closePopup(element) {
     document.removeEventListener('keydown', closePopupEsc);
 }
 
-function closeOverlay(listOfPopups) {
-    listOfPopups.forEach((popupElem) => {
-        popupElem.addEventListener('click', (evt) => {
-            if (evt.target === popupElem) {
-                closePopup(popupElem)
-            }
-        });
-    })
-}
-
 function closePopupEsc(evt) {
-    const modal = document.querySelector('.popup_opened');
-    if (evt.key === 'Escape' && modal) {
+    if (evt.key === 'Escape') {
+        const modal = document.querySelector('.popup_opened');
         closePopup(modal);
     };
 }
-
-imageCloseButton.addEventListener('click', () => { closePopup(popupImages) });
-profileCloseButton.addEventListener('click', () => { closePopup(popupProfile) });
-cardCloseButton.addEventListener('click', () => { closePopup(popupCard) });
-avatarCloseButton.addEventListener('click', () => { closePopup(popupAvatar) });
-confirmCloseButton.addEventListener('click', () => { closePopup(popupConfirm) });

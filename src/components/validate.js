@@ -42,10 +42,6 @@ function setEventListeners(formElement, { inputSelector, submitButtonSelector, i
     const submitButton = formElement.querySelector(submitButtonSelector);
     toggleButtonState(submitButton, inputsList, inactiveButtonClass);
     inputsList.forEach(inputElement => {
-        if ((inputElement.id === 'profile-name') || (inputElement.id === 'profile-about')) {
-            checkInputValidity(formElement, inputElement, inputErrorClass);
-            toggleButtonState(submitButton, inputsList, inactiveButtonClass);
-        }
         inputElement.addEventListener('input', () => {
             checkInputValidity(formElement, inputElement, inputErrorClass);
             toggleButtonState(submitButton, inputsList, inactiveButtonClass);
