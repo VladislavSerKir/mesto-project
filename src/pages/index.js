@@ -88,5 +88,4 @@ formAvatar.addEventListener('submit', handleAvtarFormSubmit);
 profileEditButton.addEventListener('click', openPropfilePopup);
 cardEditButton.addEventListener('click', () => { openPopup(popupCard) });
 avatarEditButton.addEventListener('click', () => { openPopup(popupAvatar) });
-
 enableValidation(validationConfig);
