@@ -1,7 +1,6 @@
-export { profileEditButton, cardEditButton, cardCloseButton, openPropfilePopup, openPopup, closePopup, closeOverlay, imageCloseButton, popupImages, profileCloseButton, confirmModalSubmit };
+export { profileEditButton, cardEditButton, cardCloseButton, openPropfilePopup, openPopup, closePopup, closeOverlay, imageCloseButton, popupImages, profileCloseButton, confirmCloseButton };
 import { cardEditButton, profileEditButton, popupCard, popupAvatar, popupConfirm } from './utils.js';
 import { popupProfile, occupationInput, occupationField, nameField, nameInput } from '../pages/index.js';
-import { config, removeCard } from './api.js';
 
 const popupImages = document.querySelector('.popup_type_image');
 const imageCloseButton = popupImages.querySelector('.popup__close-button_type_image');
@@ -41,21 +40,6 @@ function closePopupEsc(evt) {
     if (evt.key === 'Escape' && modal) {
         closePopup(modal);
     };
-}
-
-function confirmModalSubmit(formEvent, cardEvent) {
-    formEvent.preventDefault();
-    console.log(cardEvent.target.closest('.element').id)
-    removeCard(config, cardEvent.target.closest('.element').id)
-        .then(() => {
-            cardEvent.target.closest('.element').remove();
-        })
-        .then(() => {
-            closePopup(popupConfirm);
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
 }
 
 imageCloseButton.addEventListener('click', () => { closePopup(popupImages) });

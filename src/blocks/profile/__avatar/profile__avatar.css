@@ -1,11 +1,8 @@
-/* background: rgba(42, 44, 47, 0.8); */
-
 .profile__avatar {
     border-radius: 50%;
     width: 120px;
     height: 120px;
     object-fit: cover;
-
 }
 
 .profile__avatar-link {
@@ -13,15 +10,10 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-
     cursor: pointer;
     justify-content: center;
     transition: 0.5s ease-in-out;
 }
-
-/* .profile__avatar-link::after {
-    border-radius: 50%;
-} */
 
 .profile__avatar-link:hover::after {
     content: '';
@@ -42,21 +34,10 @@
     content: '';
     display: block;
     border-radius: 50%;
-    /* opacity: 0.8; */
 }
 
 .profile__avatar:hover {
     filter: brightness(20%);
     transition: 0.5s ease-in-out;
     border-radius: 50%;
-
-    /* content: '';
-    display: block;
-    background-image: url(../../../images/edit-avatar.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    align-items: center;
-    width: 120px;
-    height: 120px; */
 }

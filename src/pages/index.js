@@ -1,10 +1,10 @@
 import './index.css';
-export { popupProfile, nameField, occupationField, formProfile, nameInput, occupationInput, formCard, formProfileSubmit, formCardSubmit, renderCards, cardInput, linkInput, avatarField, avatarInput, formProfileButton, formAvatarButton, profileID, formConfirm }
+export { popupProfile, nameField, occupationField, formProfile, nameInput, occupationInput, formCard, formProfileSubmit, formCardSubmit, renderCards, cardInput, linkInput, avatarField, avatarInput, formProfileButton, formAvatarButton, profileID }
 import { cardsContainer, createCard, handleDeleteCard } from '../components/card.js';
 import { enableValidation } from '../components/validate.js';
 import { listOfPopups, profileEditButton, cardEditButton, avatarEditButton, popupCard, popupAvatar } from '../components/utils.js';
 import { validationConfig } from '../components/utils/constants.js';
-import { openPropfilePopup, closePopup, closeOverlay, openPopup, confirmModalSubmit } from '../components/modal.js';
+import { openPropfilePopup, closePopup, closeOverlay, openPopup } from '../components/modal.js';
 import { config, editProfileInfo, addNewCard, changeAvatar } from '../components/api.js';
 
 const popupProfile = document.querySelector('.popup_type_profile');
@@ -22,7 +22,6 @@ const avatarInput = formAvatar.querySelector('.form__field_avatar_link');
 const formProfileButton = document.querySelector('#form-profile-button');
 const formAvatarButton = document.querySelector('#form-avatar-button');
 const profileID = document.querySelector('.profile');
-const formConfirm = document.querySelector('#form-confirm');
 
 function formAvatarSubmit(event) {
     event.preventDefault();
@@ -59,7 +58,6 @@ function renderCards(cardsInfo) {
 formCard.addEventListener('submit', formCardSubmit);
 formProfile.addEventListener('submit', formProfileSubmit);
 formAvatar.addEventListener('submit', formAvatarSubmit);
-// formConfirm.addEventListener('submit', confirmModalSubmit);
 
 profileEditButton.addEventListener('click', () => { openPropfilePopup() });
 cardEditButton.addEventListener('click', () => { openPopup(popupCard) });

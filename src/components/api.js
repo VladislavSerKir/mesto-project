@@ -92,7 +92,6 @@ function addNewCard(config, cardInfo) {
     })
         .then(promise)
         .then(data => {
-            console.log(`Карточка создана id: ${data._id}`)
             cardsContainer.prepend(createCard(data, handleDeleteCard));
             return data
         })
@@ -111,7 +110,6 @@ function removeCard(config, cardID) {
     })
         .then(promise)
         .then(cardID => {
-            console.log(cardID)
             return cardID
         })
         .catch((err) => {
@@ -140,72 +138,6 @@ function changeAvatar(config, link) {
             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
 }
-
-// function likeCard(config, cardID, cardLikes, event) {
-//     return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${cardID}`, {
-//         method: 'PUT',
-//         headers: {
-//             authorization: config.headers.authorization,
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//         .then(promise)
-//         .then(data => {
-//             cardLikes.textContent = data.likes.length;
-//             event.target.classList.add('element__like-button_liked_true');
-//             return data
-//         })
-// }
-
-// function removeLikeCard(config, cardID, cardLikes, event) {
-//     return fetch(`${config.baseUrl}/${config.cohortId}/cards/likes/${cardID}`, {
-//         method: 'DELETE',
-//         headers: {
-//             authorization: config.headers.authorization,
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//         .then(promise)
-//         .then(data => {
-//             if (data.likes.length) {
-//                 cardLikes.textContent = data.likes.length;
-//             } else {
-//                 cardLikes.textContent = '';
-//             }
-//             event.target.classList.remove('element__like-button_liked_true');
-//             return data
-//         })
-// }
-
-// function getCardLikes(config, cardID, cardLikes, profileID, event) {
-//     return fetch(`${config.baseUrl}/${config.cohortId}/cards`, {
-//         method: 'GET',
-//         headers: {
-//             authorization: config.headers.authorization,
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//         .then(promise)
-//         .then(data => {
-//             return data.find((card) => {
-//                 if (card._id === cardID) {
-//                     return card.likes
-//                 }
-//             })
-
-//         })
-//         .then(data => {
-//             let profileLiked = data.likes.some((likedCard) => {
-//                 if (likedCard._id === profileID) {
-//                     return true
-//                 }
-//             })
-//             profileLiked ? removeLikeCard(config, cardID, cardLikes, event) : likeCard(config, cardID, cardLikes, event);
-//         })
-//         .catch((err) => {
-//             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-//         })
-// }
 
 function getCardLikes(config, event, cardLikes, profileID) {
     return fetch(`${config.baseUrl}/${config.cohortId}/cards`, {

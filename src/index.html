@@ -14,18 +14,11 @@
             <img src="<%=require('./images/logo.svg')%>" class="header__logo" alt="Проект Место">
         </header>
         <main class="content">
+
             <section class="profile">
-
-                <!-- <div class="profile__avatar-link">
-                    <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__avatar">
-                </div> -->
-
                 <div class="profile__avatar-link">
-
                     <img alt="Аватар" class="profile__avatar">
-                    <!-- src="<%=require('./images/avatar.jpg')%>" -->
                 </div>
-
                 <div class="profile__info">
                     <h1 class="profile__title"></h1>
                     <button type="button" class="profile__edit-button"></button>
@@ -35,7 +28,6 @@
             </section>
 
             <section class="elements" id="cards">
-
                 <template id="card">
                     <article class="element">
                         <button type="button" class="element__delete-button"></button>
@@ -49,8 +41,8 @@
                         </div>
                     </article>
                 </template>
-
             </section>
+
         </main>
         <footer class="footer">
             <p class="footer__copyright">
@@ -75,7 +67,6 @@
                             placeholder="О себе" minlength="2" maxlength="200" id="profile-about" required>
                         <span id="profile-about-error" class="form__field-error"></span>
                     </label>
-
                     <button type="submit" class="form__submit-button" id="form-profile-button">Сохранить</button>
                 </form>
             </div>
