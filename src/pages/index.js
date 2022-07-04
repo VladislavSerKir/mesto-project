@@ -21,6 +21,7 @@ const linkInput = formCard.querySelector('.form__field_card_link');
 const avatarInput = formAvatar.querySelector('.form__field_avatar_link');
 const formProfileButton = document.querySelector('#form-profile-button');
 const formAvatarButton = document.querySelector('#form-avatar-button');
+const formCardButton = document.querySelector('#form-card-button');
 const profileID = document.querySelector('.profile');
 
 function handleAvtarFormSubmit(event) {
@@ -31,14 +32,22 @@ function handleAvtarFormSubmit(event) {
             avatarField.src = data.avatar;
             return data
         })
+        .then(() => {
+            formAvatar.reset()
+        })
+        .then(() => {
+            closePopup(popupAvatar);
+        })
+        .then(() => {
+            formAvatarButton.disabled = true;
+            formAvatarButton.classList.add('form__submit-button_disabled')
+        })
         .catch((err) => {
             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
         .finally(() => {
             formAvatarButton.textContent = 'Сохранить'
         })
-    formAvatar.reset()
-    closePopup(popupAvatar);
 }
 
 function formProfileSubmit(event) {
@@ -50,13 +59,15 @@ function formProfileSubmit(event) {
             occupationField.textContent = data.about;
             return data
         })
+        .then(() => {
+            closePopup(popupProfile);
+        })
         .catch((err) => {
             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
         .finally(() => {
             formProfileButton.textContent = 'Сохранить'
         })
-    closePopup(popupProfile);
 }
 
 function formCardSubmit(event) {
@@ -69,11 +80,19 @@ function formCardSubmit(event) {
             cardsContainer.prepend(createCard(data, handleDeleteCard));
             return data
         })
+        .then(() => {
+            formCard.reset();
+        })
+        .then(() => {
+            closePopup(popupCard);
+        })
+        .then(() => {
+            formCardButton.disabled = true;
+            formCardButton.classList.add('form__submit-button_disabled')
+        })
         .catch((err) => {
             console.log(`Ошибка: ${err.status}, ${err.statusText}`)
         })
-    formCard.reset();
-    closePopup(popupCard);
 }
 
 function renderCards(cardsInfo) {
