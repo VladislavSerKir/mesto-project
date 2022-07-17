@@ -136,3 +136,29 @@ Promise.all([getUserInfo(config), getCardsInfo(config)])
     .catch(err => {
         console.log(`Ошибка: ${err.status}, ${err.statusText}`)
     });
+
+
+/////////////
+
+
+class Api {
+    constructor(options) {
+        // тело конструктора
+    }
+
+    getInitialCards() {
+        return fetch().then()
+        // ...
+    }
+
+    // другие методы работы с API
+}
+
+const api = {
+    baseUrl: 'https://nomoreparties.co/v1',
+    cohortId: 'plus-cohort-13',
+    headers: {
+        authorization: 'c78a0ff3-e5d6-4d7f-a1e3-4df178535103',
+        'Content-Type': 'application/json'
+    }
+}
