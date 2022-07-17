@@ -1,4 +1,12 @@
-export { validationConfig };
+export { apiConfig, validationConfig };
+
+const apiConfig = {
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-13',
+    headers: {
+        authorization: 'c78a0ff3-e5d6-4d7f-a1e3-4df178535103',
+        'Content-Type': 'application/json'
+    }
+}
 
 const validationConfig = {
     formSelector: '.form',

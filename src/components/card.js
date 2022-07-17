@@ -1,6 +1,6 @@
 export { cardsContainer, createCard, deleteCard, hideDeleteButton, handleDeleteCard };
 import { selectImage, popupConfirm } from './utils.js';
-import { config, removeCard, getCardLikes, removeLikeCard, likeCard } from './api.js';
+import { config, removeCard, getCardLikes, removeLikeCard, likeCard } from './apiOld.js';
 import { profileID } from '../pages/index.js';
 import { openPopup, closePopup } from './modal.js';
 
@@ -99,7 +99,7 @@ function likeHandler(event, profileID, cardLikes) {
                     });
         })
         .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+            console.log(`Ошибка: ${err}`)
         })
 }
 
@@ -109,7 +109,7 @@ function deleteCard(event) {
             event.target.closest('.element').remove();
         })
         .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
+            console.log(`Ошибка: ${err}`)
         })
 }
 
