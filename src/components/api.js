@@ -1,60 +1,60 @@
 export default class Api {
     constructor(config) {
-        this.config = config;
+        this._config = config;
     }
 
     _checkResponse(res) {
         return res.ok ? res.json() : Promise.reject(`Ошибка: ${res}`);
     }
 
-    getUserInfo() {
-        this.config.method = 'GET';
-        return fetch(`${this.config.baseUrl}/users/me`, this.config)
+    getUser() {
+        this._config.method = 'GET';
+        return fetch(`${this._config.baseUrl}/users/me`, this._config)
             .then(this._checkResponse);
     }
 
-    updateUserInfo(user) {
-        this.config.method = 'PATCH';
-        this.config.body = JSON.stringify(user);
-        return fetch(`${this.config.baseUrl}/users/me`, this.config)
+    updateUser(user) {
+        this._config.method = 'PATCH';
+        this._config.body = JSON.stringify(user);
+        return fetch(`${this._config.baseUrl}/users/me`, this._config)
             .then(this._checkResponse);
     }
 
     getCards() {
-        this.config.method = 'GET';
-        return fetch(`${this.config.baseUrl}/cards`, this.config)
+        this._config.method = 'GET';
+        return fetch(`${this._config.baseUrl}/cards`, this._config)
             .then(this._checkResponse);
     }
 
     addCard(card) {
-        this.config.method = 'POST';
-        this.config.body = JSON.stringify(card);
-        return fetch(`${this.config.baseUrl}/cards`, this.config)
+        this._config.method = 'POST';
+        this._config.body = JSON.stringify(card);
+        return fetch(`${this._config.baseUrl}/cards`, this._config)
             .then(this._checkResponse);
     }
 
     removeCard(id) {
-        this.config.method = 'DELETE';
-        return fetch(`${this.config.baseUrl}/cards/${id}`, this.config)
+        this._config.method = 'DELETE';
+        return fetch(`${this._config.baseUrl}/cards/${id}`, this._config)
             .then(this._checkResponse);
     }
 
     updateAvatar(avatar) {
-        this.config.method = 'PATCH';
-        this.config.body = JSON.stringify({ avatar });
-        return fetch(`${this.config.baseUrl}/users/me/avatar`, this.config)
+        this._config.method = 'PATCH';
+        this._config.body = JSON.stringify({ avatar });
+        return fetch(`${this._config.baseUrl}/users/me/avatar`, this._config)
             .then(this._checkResponse);
     }
 
     likeCard(id) {
-        this.config.method = 'PUT';
-        return fetch(`${this.config.baseUrl}/cards/likes/${id}`, this.config)
+        this._config.method = 'PUT';
+        return fetch(`${this._config.baseUrl}/cards/likes/${id}`, this._config)
             .then(this._checkResponse);
     }
 
     dislikeCard(id) {
-        this.config.method = 'DELETE';
-        return fetch(`${this.config.baseUrl}/cards/likes/${id}`, this.config)
+        this._config.method = 'DELETE';
+        return fetch(`${this._config.baseUrl}/cards/likes/${id}`, this._config)
             .then(this._checkResponse);
     }
 }

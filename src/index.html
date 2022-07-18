@@ -27,21 +27,7 @@
                 <button type="button" class="profile__add-button"></button>
             </section>
 
-            <section class="elements" id="cards">
-                <template id="card">
-                    <article class="element">
-                        <button type="button" class="element__delete-button"></button>
-                        <img src="<%=require('./images/karachaevsk.jpg')%>" alt="" class="element__image">
-                        <div class="element__container">
-                            <h2 class="element__title"></h2>
-                            <div class="element__likes-info">
-                                <button type="button" class="element__like-button"></button>
-                                <p class="element__likes"></p>
-                            </div>
-                        </div>
-                    </article>
-                </template>
-            </section>
+            <section class="elements" id="cards"></section>
 
         </main>
         <footer class="footer">
@@ -132,6 +118,21 @@
         </div>
 
     </div>
+
+    <template id="card">
+        <article class="element">
+            <button type="button" class="element__delete-button"></button>
+            <img src="<%=require('./images/karachaevsk.jpg')%>" alt="" class="element__image">
+            <div class="element__container">
+                <h2 class="element__title"></h2>
+                <div class="element__likes-info">
+                    <button type="button" class="element__like-button"></button>
+                    <p class="element__likes"></p>
+                </div>
+            </div>
+        </article>
+    </template>
+
 </body>
 
 </html>

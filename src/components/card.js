@@ -1,120 +1,53 @@
-export { cardsContainer, createCard, deleteCard, hideDeleteButton, handleDeleteCard };
-import { selectImage, popupConfirm } from './utils.js';
-import { config, removeCard, getCardLikes, removeLikeCard, likeCard } from './apiOld.js';
-import { profileID } from '../pages/index.js';
-import { openPopup, closePopup } from './modal.js';
+export default class Card {
+  constructor({card, user, template, handleCardClick, handleDeleteClick, handleLikeClick}) {
+    this._card = card;
+    this._userId = user._id;
+    this._templateSelector = template;
+    this._handleCardClick = handleCardClick;
+    this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
+  }
 
-const cardsContainer = document.querySelector('#cards');
-const template = cardsContainer.querySelector('#card');
-let cardToDelete;
-let cardIdToDelete;
+  _likedByUser() {
+    return this._card.likes.some(like => like._id === this._userId);
+  }
 
-function createCard(attr, handleDelete) {
-    const card = template.content.cloneNode(true).querySelector('.element');
-    card.id = attr._id;
-    card.querySelector('.element__title').textContent = attr.name;
-    const deleteButton = card.querySelector('.element__delete-button');
-    const cardImage = card.querySelector('.element__image');
-    const cardLikes = card.querySelector('.element__likes');
-    cardImage.setAttribute('src', `${attr.link}`);
-    cardImage.setAttribute('alt', `${attr.name}`);
+  _getElement() {
+    const cardElement = document
+      .querySelector(this._templateSelector)
+      .content
+      .querySelector('.element')
+      .cloneNode(true);
 
-    if (attr.likes.length) {
-        cardLikes.textContent = attr.likes.length;
-    }
-    if (attr.owner._id !== profileID.id) {
-        hideDeleteButton(deleteButton)
-    }
-    Array.from(attr.likes).forEach((profileHasLike) => {
-        if (profileHasLike._id === profileID.id) {
-            card.querySelector('.element__like-button').classList.add('element__like-button_liked_true');
-        }
-    })
-    deleteButton.addEventListener('click', (cardElement) => {
-        handleDelete(cardElement, card.id)
+    return cardElement;
+  }
+
+  _setEventListeners() {
+    this._element.querySelector('.element__image').addEventListener('click', () => {
+      this._handleCardClick();
     });
-    card.querySelector('.element__like-button').addEventListener('click', (event) => {
-        likeHandler(event, profileID.id, cardLikes);
+
+    this._element.querySelector('.element__delete-button').addEventListener('click', () => {
+      this._handleDeleteClick();
     });
-    cardImage.addEventListener('click', () => selectImage(attr));
-    return card;
+
+    this._element.querySelector('.element__like-button').addEventListener('click', (evt) => {
+      this._handleLikeClick(this._card._id, evt.target);
+    });
+  }
+
+  generate() {
+    this._element = this._getElement();
+    this._setEventListeners();
+
+    this._element.querySelector('.element__title').textContent = this._card.name;
+    this._element.querySelector('.element__image').alt = this._card.name;
+    this._element.querySelector('.element__image').src = this._card.link;
+    if (this._likedByUser()) {
+      this._element.querySelector('.element__like-button').classList.add('element__like-button_active');
+    }
+    this._element.querySelector('.element__likes').textContent = this._card.likes.length;
+
+    return this._element;
+  }
 }
-
-const handleDeleteCard = (cardElement, cardID) => {
-    cardToDelete = cardElement;
-    cardIdToDelete = cardID;
-    openPopup(popupConfirm)
-}
-
-const confirmRemoveCardSubmit = (evt) => {
-    evt.preventDefault();
-    removeCard(config, cardIdToDelete)
-        .then(cardID => {
-            return cardID
-        })
-        .then(() => {
-            handleRemoveCard(cardToDelete)
-        })
-        .then(() => {
-            closePopup(popupConfirm);
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
-};
-
-function handleRemoveCard(element) {
-    element.target.closest('.element').remove();
-}
-
-function likeHandler(event, profileID, cardLikes) {
-    getCardLikes(config, event, cardLikes, profileID)
-        .then(data => {
-            return data.find((card) => {
-                if (card._id === event.target.closest('.element').id) {
-                    return card.likes
-                }
-            })
-        })
-        .then(data => {
-            const profileLiked = data.likes.some((likedCard) => {
-                if (likedCard._id === profileID) {
-                    return true
-                }
-            })
-            profileLiked ? removeLikeCard(config, event, cardLikes)
-                .then(data => {
-                    if (data.likes.length) {
-                        cardLikes.textContent = data.likes.length;
-                    } else {
-                        cardLikes.textContent = '';
-                    }
-                    event.target.classList.remove('element__like-button_liked_true');
-                    return data
-                }) : likeCard(config, event, cardLikes)
-                    .then(data => {
-                        cardLikes.textContent = data.likes.length;
-                        event.target.classList.add('element__like-button_liked_true');
-                        return data
-                    });
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err}`)
-        })
-}
-
-function deleteCard(event) {
-    removeCard(config, event.target.closest('.element').id)
-        .then(() => {
-            event.target.closest('.element').remove();
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err}`)
-        })
-}
-
-function hideDeleteButton(element) {
-    element.classList.add('element__delete-button_disabled')
-}
-
-popupConfirm.addEventListener('submit', confirmRemoveCardSubmit);
