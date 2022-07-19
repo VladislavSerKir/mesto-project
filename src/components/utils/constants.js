@@ -1,4 +1,4 @@
-export { apiConfig, validationConfig };
+export { apiConfig, validationConfig, profileButton };
 
 const apiConfig = {
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-13',
@@ -16,3 +16,5 @@ const validationConfig = {
     inputErrorClass: 'form__field_type_error',
     errorClass: 'form__field-error_active'
 }
+
+const profileButton = document.querySelector('.profile__edit-button')

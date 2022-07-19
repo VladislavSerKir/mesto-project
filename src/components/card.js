@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({card, user, template, handleCardClick, handleDeleteClick, handleLikeClick}) {
+  constructor({ card, user, template, handleCardClick, handleDeleteClick, handleLikeClick }) {
     this._card = card;
     this._userId = user._id;
     this._templateSelector = template;
@@ -10,6 +10,10 @@ export default class Card {
 
   _likedByUser() {
     return this._card.likes.some(like => like._id === this._userId);
+  }
+
+  _createdByUser() {
+    return this._card.owner._id === this._userId;
   }
 
   _getElement() {
@@ -27,9 +31,13 @@ export default class Card {
       this._handleCardClick();
     });
 
-    this._element.querySelector('.element__delete-button').addEventListener('click', () => {
-      this._handleDeleteClick();
-    });
+    if (this._createdByUser()) {
+      this._element.querySelector('.element__delete-button').addEventListener('click', () => {
+        this._handleDeleteClick();
+      });
+    } else {
+      this._element.querySelector('.element__delete-button').remove();
+    }
 
     this._element.querySelector('.element__like-button').addEventListener('click', (evt) => {
       this._handleLikeClick(this._card._id, evt.target);
@@ -46,6 +54,7 @@ export default class Card {
     if (this._likedByUser()) {
       this._element.querySelector('.element__like-button').classList.add('element__like-button_active');
     }
+
     this._element.querySelector('.element__likes').textContent = this._card.likes.length;
 
     return this._element;
