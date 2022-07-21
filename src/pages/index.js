@@ -1,31 +1,62 @@
 import './index.css';
 
 import {
-    apiConfig,
+    config,
     profileButton,
+    avatarButton,
+    logError,
+    renderLoader
 } from '../components/utils/constants';
-import Api from '../components/Api';
-import Section from '../components/Section';
-import UserInfo from '../components/UserInfo';
-import Card from '../components/card';
-import Popup from '../components/Popup';
 
-const server = new Api(apiConfig);
+import { Api } from '../components/Api';
+import { Section } from '../components/Section';
+import { UserInfo } from '../components/UserInfo';
+import { Card } from '../components/card';
+import { PopupWithImage } from '../components/PopupWithImage';
+import { PopupWithForm } from '../components/PopupWithForm';
+
+const server = new Api(config.api);
 const profile = new UserInfo({
     nameSelector: '.profile__title',
     aboutSelector: '.profile__occupation',
     avatarSelector: '.profile__avatar'
 });
-const popupProfile = new Popup('.popup_type_profile');
-// const popupPro = new Popup('popup_type_profile');
-// const popupProfile = new Popup('popup_type_profile');
-// const popupProfile = new Popup('popup_type_profile');
-
-profileButton.addEventListener('click', function () {
-    popupProfile.setEventListeners();
-    popupProfile.open();
+const imagePopup = new PopupWithImage('.popup_type_image');
+const profilePopup = new PopupWithForm({
+    selector: '.popup_type_profile',
+    submitHandler: function(form, data) {
+        renderLoader(form, 'Сохраняем');
+        server.updateUser(data)
+            .then(user => {
+                renderLoader(form, 'Сохранить');
+                profile.setUserInfo(user);
+                profilePopup.close();
+            })
+            .catch(logError);
+    }
+});
+const avatarPopup = new PopupWithForm({
+    selector: '.popup_type_avatar',
+    submitHandler: function(form, data) {
+        renderLoader(form, 'Сохраняем');
+        console.log(data);
+        server.updateAvatar(data)
+            .then(user => {
+                renderLoader(form, 'Сохранить');
+                profile.setUserInfo(user);
+                avatarPopup.close();
+            })
+            .catch(logError);
+    }
 });
 
+profileButton.addEventListener('click', function () {
+    profilePopup.open(profile.getUserInfo());
+});
+
+avatarButton.addEventListener('click', function () {
+    avatarPopup.open(profile.getUserInfo());
+});
 
 Promise.all([server.getUser(), server.getCards()])
     .then(([user, cards]) => {
@@ -40,8 +71,8 @@ Promise.all([server.getUser(), server.getCards()])
                     card: item,
                     user: user,
                     template: '#card',
-                    handleCardClick: function () {
-                        console.log('click');
+                    handleCardClick: function (card) {
+                        imagePopup.open(card);
                     },
                     handleDeleteClick: function () {
                         console.log('delete');
@@ -49,7 +80,6 @@ Promise.all([server.getUser(), server.getCards()])
                     handleLikeClick: function (id, buttonElement) {
 
                         if (buttonElement.classList.contains('element__like-button_active')) {
-                            console.log('dislike');
                             server.dislikeCard(id)
                                 .then(card => {
                                     buttonElement.classList.remove('element__like-button_active');
@@ -57,7 +87,6 @@ Promise.all([server.getUser(), server.getCards()])
                                 })
                                 .catch(err => console.log(err));
                         } else {
-                            console.log('like');
                             server.likeCard(id)
                                 .then(card => {
                                     buttonElement.classList.add('element__like-button_active');

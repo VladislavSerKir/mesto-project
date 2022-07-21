@@ -38,18 +38,18 @@
 
         <div class="popup popup_type_profile">
             <div class="popup__container">
-                <button type="button" class="popup__close-button popup__close-button_type_profile"></button>
+                <button type="button" class="popup__close-button"></button>
                 <form action="#" class="form" id="form-profile" name="profile-data" method="POST" novalidate>
                     <h3 class="form__title">
                         Редактировать профиль
                     </h3>
                     <label class="form__element">
-                        <input type="text" name="name" class="form__field form__field_profile_name" placeholder="Имя"
+                        <input type="text" name="name" class="form__field form__field_name" placeholder="Имя"
                             minlength="2" maxlength="40" id="profile-name" required>
                         <span id="profile-name-error" class="form__field-error"></span>
                     </label>
                     <label class="form__element">
-                        <input type="text" name="about" class="form__field form__field_profile_occupation"
+                        <input type="text" name="about" class="form__field form__field_about"
                             placeholder="О себе" minlength="2" maxlength="200" id="profile-about" required>
                         <span id="profile-about-error" class="form__field-error"></span>
                     </label>
@@ -71,7 +71,7 @@
                         <span id="card-name-error" class="form__field-error"></span>
                     </label>
                     <label class="form__element">
-                        <input type="url" name="link" class="form__field form__field_card_link"
+                        <input type="url" name="avatar" class="form__field form__field_card_link"
                             placeholder="Ссылка на картинку" id="card-link" required>
                         <span id="card-link-error" class="form__field-error"></span>
                     </label>
@@ -88,7 +88,7 @@
                         Обновить аватар
                     </h3>
                     <label class="form__element">
-                        <input type="url" name="link" class="form__field form__field_avatar_link"
+                        <input type="url" name="avatar" class="form__field form__field_avatar"
                             placeholder="Ссылка на картинку" id="avatar-link" required>
                         <span id="avatar-link-error" class="form__field-error"></span>
                     </label>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="popup popup_type_image">
-            <div class="popup__container">
+            <div class="popup__container popup__container-image">
                 <button type="button" class="popup__close-button popup__close-button_type_image"></button>
                 <img src="<%=require('./images/photo-1559426756-14c161f0dae8 1.png')%>" alt="" class="popup__image">
                 <p class="popup__text"></p>

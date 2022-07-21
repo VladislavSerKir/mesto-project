@@ -1,4 +1,4 @@
-export default class Card {
+export class Card {
   constructor({ card, user, template, handleCardClick, handleDeleteClick, handleLikeClick }) {
     this._card = card;
     this._userId = user._id;
@@ -28,7 +28,7 @@ export default class Card {
 
   _setEventListeners() {
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._handleCardClick();
+      this._handleCardClick(this._card);
     });
 
     if (this._createdByUser()) {

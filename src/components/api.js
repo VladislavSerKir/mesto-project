@@ -1,4 +1,4 @@
-export default class Api {
+export class Api {
     constructor(config) {
         this._config = config;
     }
@@ -41,7 +41,7 @@ export default class Api {
 
     updateAvatar(avatar) {
         this._config.method = 'PATCH';
-        this._config.body = JSON.stringify({ avatar });
+        this._config.body = JSON.stringify(avatar);
         return fetch(`${this._config.baseUrl}/users/me/avatar`, this._config)
             .then(this._checkResponse);
     }
