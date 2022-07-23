@@ -49,8 +49,8 @@
                         <span id="profile-name-error" class="form__field-error"></span>
                     </label>
                     <label class="form__element">
-                        <input type="text" name="about" class="form__field form__field_about"
-                            placeholder="О себе" minlength="2" maxlength="200" id="profile-about" required>
+                        <input type="text" name="about" class="form__field form__field_about" placeholder="О себе"
+                            minlength="2" maxlength="200" id="profile-about" required>
                         <span id="profile-about-error" class="form__field-error"></span>
                     </label>
                     <button type="submit" class="form__submit-button" id="form-profile-button">Сохранить</button>
@@ -71,7 +71,7 @@
                         <span id="card-name-error" class="form__field-error"></span>
                     </label>
                     <label class="form__element">
-                        <input type="url" name="avatar" class="form__field form__field_card_link"
+                        <input type="url" name="link" class="form__field form__field_card_link"
                             placeholder="Ссылка на картинку" id="card-link" required>
                         <span id="card-link-error" class="form__field-error"></span>
                     </label>
@@ -112,6 +112,7 @@
                     <h3 class="form__title form__title_type_confirm">
                         Вы уверены?
                     </h3>
+                    <input type="hidden" id="id" name="id" class="form__field form__field_id" value="">
                     <button type="submit" class="form__submit-button" id="form-confirm-button">Да</button>
                 </form>
             </div>

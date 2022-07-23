@@ -1,4 +1,4 @@
-export { config, profileButton, avatarButton, logError, renderLoader };
+export { config, profileButton, avatarButton, cardButton, logError, renderLoader };
 
 const config = {
     api: {
@@ -15,11 +15,11 @@ const config = {
         inputErrorClass: 'form__field_type_error',
         errorClass: 'form__field-error_active'
     }
-} 
+}
 
 const profileButton = document.querySelector('.profile__edit-button');
-
 const avatarButton = document.querySelector('.profile__avatar-link');
+const cardButton = document.querySelector('.profile__add-button');
 
 const logError = (err) => {
     console.log(err);

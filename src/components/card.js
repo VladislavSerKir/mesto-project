@@ -1,7 +1,7 @@
 export class Card {
   constructor({ card, user, template, handleCardClick, handleDeleteClick, handleLikeClick }) {
     this._card = card;
-    this._userId = user._id;
+    this._userId = user.id;
     this._templateSelector = template;
     this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
@@ -33,7 +33,7 @@ export class Card {
 
     if (this._createdByUser()) {
       this._element.querySelector('.element__delete-button').addEventListener('click', () => {
-        this._handleDeleteClick();
+        this._handleDeleteClick(this._card._id);
       });
     } else {
       this._element.querySelector('.element__delete-button').remove();
@@ -48,9 +48,11 @@ export class Card {
     this._element = this._getElement();
     this._setEventListeners();
 
+    this._element.dataset.id = this._card._id;
     this._element.querySelector('.element__title').textContent = this._card.name;
-    this._element.querySelector('.element__image').alt = this._card.name;
-    this._element.querySelector('.element__image').src = this._card.link;
+    const elementImage = this._element.querySelector('.element__image');
+    elementImage.alt = this._card.name;
+    elementImage.src = this._card.link;
     if (this._likedByUser()) {
       this._element.querySelector('.element__like-button').classList.add('element__like-button_active');
     }
