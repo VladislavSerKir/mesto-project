@@ -1,5 +1,8 @@
 import './index.css';
 
+let cardsSection;
+let currentCard;
+
 import {
     config,
     profileButton,
@@ -18,7 +21,6 @@ import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { FormValidator } from '../components/FormValidator';
 
-let cardsSection;
 const server = new Api(config.api);
 const profile = new UserInfo({
     nameSelector: '.profile__title',
@@ -79,7 +81,7 @@ const confirmPopup = new PopupWithForm({
         server.removeCard(data.id)
             .then(message => {
                 renderLoader(form, 'Да');
-                document.querySelector(`.element[data-id="${data.id}"`).remove();
+                currentCard.delete();
                 confirmPopup.close();
             })
             .catch(logError);
@@ -94,7 +96,8 @@ const cardGenerator = (data) => {
         handleCardClick: function (card) {
             imagePopup.open(card);
         },
-        handleDeleteClick: function (id) {
+        handleDeleteClick: function (id, cardInstance) {
+            currentCard = cardInstance;
             confirmPopup.open({ id });
         },
         handleLikeClick: function (id, buttonElement) {
