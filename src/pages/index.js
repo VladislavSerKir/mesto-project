@@ -38,11 +38,13 @@ const profilePopup = new PopupWithForm({
         renderLoader(form, 'Сохраняем');
         server.updateUser(data)
             .then(user => {
-                renderLoader(form, 'Сохранить');
                 profile.setUserInfo(user);
                 profilePopup.close();
             })
-            .catch(logError);
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
     }
 });
 const avatarPopup = new PopupWithForm({
@@ -51,11 +53,13 @@ const avatarPopup = new PopupWithForm({
         renderLoader(form, 'Сохраняем');
         server.updateAvatar(data)
             .then(user => {
-                renderLoader(form, 'Сохранить');
                 profile.setUserInfo(user);
                 avatarPopup.close();
             })
-            .catch(logError);
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
     }
 });
 
@@ -65,12 +69,14 @@ const cardPopup = new PopupWithForm({
         renderLoader(form, 'Сохраняем');
         server.addCard(data)
             .then(data => {
-                renderLoader(form, 'Сохранить');
                 const cardElement = cardGenerator(data);
                 cardsSection.addItem(cardElement);
                 cardPopup.close();
             })
-            .catch(logError);
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
     }
 });
 
@@ -80,11 +86,13 @@ const confirmPopup = new PopupWithForm({
         renderLoader(form, 'Удаляем');
         server.removeCard(data.id)
             .then(message => {
-                renderLoader(form, 'Да');
                 currentCard.delete();
                 confirmPopup.close();
             })
-            .catch(logError);
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Да');
+            })
     }
 });
 
