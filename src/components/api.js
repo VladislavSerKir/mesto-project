@@ -50,6 +50,7 @@ export class Api {
         this._options.method = 'PUT';
         return fetch(`${this._options.baseUrl}/cards/likes/${id}`, this._options)
             .then(this._checkResponse)
+
     }
 
     dislikeCard(id) {

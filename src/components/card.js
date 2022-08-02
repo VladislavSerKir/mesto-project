@@ -17,10 +17,30 @@ export class Card {
         return cardElement;
     }
 
+    addLike(data) {
+        this._element.querySelector('.element__like-button').classList.add('element__like-button_liked_true')
+        this._element.querySelector('.element__likes').textContent = data.likes.length;
+    }
+
+    removeLike(data) {
+        this._element.querySelector('.element__like-button').classList.remove('element__like-button_liked_true')
+        this._element.querySelector('.element__likes').textContent = data.likes.length;
+    }
+
+    isLiked(userID) {
+        return this._cardData.likes.some(item =>
+            item._id === userID
+        )
+    }
+
+    _createdByUser() {
+        return this._userInfo._id === this._cardData.owner._id
+    }
+
     _setEventListeners() {
         this._element.querySelector('.element__image').addEventListener('click', () => { this._handleCardClick(this._cardData) })
         this._element.querySelector('.element__delete-button').addEventListener('click', () => { this._handleCardDelete(this._cardData.owner._id, this._cardData._id) })
-        this._element.querySelector('.element__like-button').addEventListener('click', () => { this._handleCardLike(this._cardData.likes, this._userInfo._id, this._cardData._id) })
+        this._element.querySelector('.element__like-button').addEventListener('click', (event) => { this._handleCardLike(this._cardData.likes, this._userInfo._id, this._cardData._id, event.target) })
     }
 
     generate() {
@@ -33,7 +53,9 @@ export class Card {
         if (this._userInfo._id !== this._cardData.owner._id) {
             this._element.querySelector('.element__delete-button').remove();
         }
-        // console.log(this._userInfo._id, this._cardData.owner._id)
+        if (this.isLiked(this._userInfo._id)) {
+            this.addLike(this._cardData)
+        }
 
         return this._element
     }

@@ -7,11 +7,18 @@ import { Section } from '../components/Section';
 import { Card } from '../components/Card';
 import { Popup } from '../components/Popup';
 import { PopupWithImage } from '../components/PopupWithImage';
+import { PopupWithForm } from '../components/PopupWithForm';
 
 const server = new Api(config);
 
-const profilePopup = new Popup('.popup_type_profile');
+const profilePopup = new PopupWithForm({
+    selector: '.popup_type_profile', profileFormSubmit: () => {
+
+    }
+});
+
 const cardPopup = new Popup('.popup_type_card');
+
 const avatarPopup = new Popup('.popup_type_avatar');
 
 const imagePopup = new PopupWithImage('.popup_type_image');
@@ -42,18 +49,19 @@ Promise.all([server.getUser(), server.getCards()])
                     },
                     handleCardDelete: (ownerID, cardID) => {
                         console.log('handleCardDelete', ownerID, cardID)
-
                     },
-                    handleCardLike: (cardLikes, userID, cardID) => {
-                        console.log('handleLikeCard', cardLikes, cardID, item._id, user._id)
-                        console.log(cardLikes.some((item) => { item._id === userID }))
-                        if (cardLikes.some(item => { item._id === user._id })) {
-                            console.log('true')
-                            server.likeCard(cardID)
-                                .then(() => {
-                                    console.log(item)
+                    handleCardLike: (cardLikes, userID, cardID, likeButton) => {
+                        likeButton.classList.contains('element__like-button_liked_true')
+                            ?
+                            server.dislikeCard(cardID)
+                                .then((data) => {
+                                    card.removeLike(data)
                                 })
-                        }
+                            :
+                            server.likeCard(cardID)
+                                .then((data) => {
+                                    card.addLike(data)
+                                })
                     }
                 })
                 const cardElement = card.generate()

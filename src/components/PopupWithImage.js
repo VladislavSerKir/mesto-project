@@ -10,5 +10,7 @@ export class PopupWithImage extends Popup {
         popupImg.src = data.link;
         popupImg.textContent = data.name;
         popupImg.alt = data.name;
+        const popupImgText = this._selector.querySelector('.popup__text')
+        popupImgText.textContent = data.name;
     }
 }
