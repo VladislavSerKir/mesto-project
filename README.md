@@ -32,13 +32,15 @@
 ![Запись экрана 2022-10-02 в 14 32 50](https://user-images.githubusercontent.com/83783362/193451935-7fe40be1-c0d0-420d-a64b-619f873ab9ea.gif)
 
 ### Технологии
-<p>
-  <img alt="html5" src="https://img.shields.io/badge/-HTML5-ffffff?style=for-the-badge&logo=html5&logoColor=e54c21"/>
-      <img alt="CSS" src="https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white"/>
-      <img alt="JavaScript" src="https://img.shields.io/badge/-JavaScript-ffffff?style=for-the-badge&logo=javascript&logoColor=f7df1d"/>
-       <img alt="Webpack" src="https://img.shields.io/badge/-Webpack-ffffff?style=for-the-badge&logo=webpack&logoColor=1b74ba"/>
-          <img alt="Figma" src="https://img.shields.io/badge/-Figma-ffffff?style=for-the-badge&logo=figma&logoColor=f24e1e"/>
-</p>
+
+<div align="left">
+  <br/>
+  <img src="https://github.com/devicons/devicon/blob/master/icons/webpack/webpack-original.svg" title="Webpack" alt="Webpack" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original.svg" title="HTML5" alt="HTML" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/css3/css3-plain-wordmark.svg"  title="CSS3" alt="CSS" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="JavaScript" alt="JavaScript" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/figma/figma-original.svg" title="Figma" alt="Figma" width="40" height="40"/>&nbsp;
+</div>
 
 ## Установка, настройка
 Проект, развернутый на Github:  [GitHub Pages](https://vladislavserkir.github.io/mesto-project/)
