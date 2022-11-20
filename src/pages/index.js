@@ -1,111 +1,167 @@
 import './index.css';
-export { popupProfile, nameField, occupationField, formProfile, nameInput, occupationInput, formCard, formProfileSubmit, formCardSubmit, renderCards, cardInput, linkInput, avatarField, avatarInput, formProfileButton, formAvatarButton, profileID }
-import { cardsContainer, createCard, handleDeleteCard } from '../components/card.js';
-import { enableValidation } from '../components/validate.js';
-import { profileEditButton, cardEditButton, avatarEditButton, popupCard, popupAvatar } from '../components/utils.js';
-import { validationConfig } from '../components/utils/constants.js';
-import { openPropfilePopup, closePopup, openPopup } from '../components/modal.js';
-import { config, editProfileInfo, addNewCard, changeAvatar } from '../components/api.js';
 
-const popupProfile = document.querySelector('.popup_type_profile');
-const nameField = document.querySelector('.profile__title');
-const occupationField = document.querySelector('.profile__occupation');
-const avatarField = document.querySelector('.profile__avatar')
-const formAvatar = document.querySelector('#form-avatar')
-const formProfile = document.querySelector('#form-profile');
-const nameInput = formProfile.querySelector('.form__field_profile_name');
-const occupationInput = formProfile.querySelector('.form__field_profile_occupation');
-const formCard = document.querySelector('#form-card');
-const cardInput = formCard.querySelector('.form__field_card_name');
-const linkInput = formCard.querySelector('.form__field_card_link');
-const avatarInput = formAvatar.querySelector('.form__field_avatar_link');
-const formProfileButton = document.querySelector('#form-profile-button');
-const formAvatarButton = document.querySelector('#form-avatar-button');
-const formCardButton = document.querySelector('#form-card-button');
-const profileID = document.querySelector('.profile');
+let cardsSection;
+let currentCard;
 
-function handleAvtarFormSubmit(event) {
-    event.preventDefault();
-    formAvatarButton.textContent = 'Сохранение...';
-    changeAvatar(config, avatarInput.value)
-        .then(data => {
-            avatarField.src = data.avatar;
-            return data
-        })
-        .then(() => {
-            formAvatar.reset()
-        })
-        .then(() => {
-            closePopup(popupAvatar);
-        })
-        .then(() => {
-            formAvatarButton.disabled = true;
-            formAvatarButton.classList.add('form__submit-button_disabled')
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
-        .finally(() => {
-            formAvatarButton.textContent = 'Сохранить'
-        })
+import {
+    config,
+    profileButton,
+    avatarButton,
+    cardButton,
+    logError,
+    renderLoader,
+}
+    from '../components/utils/utils';
+
+import { Api } from '../components/Api';
+import { Card } from '../components/Card';
+import { Section } from '../components/Section';
+import { UserInfo } from '../components/UserInfo';
+import { PopupWithImage } from '../components/PopupWithImage';
+import { PopupWithForm } from '../components/PopupWithForm';
+import { FormValidator } from '../components/FormValidator';
+
+const server = new Api(config.api);
+const profile = new UserInfo({
+    nameSelector: '.profile__title',
+    aboutSelector: '.profile__occupation',
+    avatarSelector: '.profile__avatar'
+});
+const profileFormValidator = new FormValidator(config.validator, '#form-profile');
+const avatarFormValidator = new FormValidator(config.validator, '#form-avatar');
+const cardFormValidator = new FormValidator(config.validator, '#form-card');
+
+const imagePopup = new PopupWithImage('.popup_type_image');
+const profilePopup = new PopupWithForm({
+    selector: '.popup_type_profile',
+    submitHandler: function (form, data) {
+        renderLoader(form, 'Сохраняем');
+        server.updateUser(data)
+            .then(user => {
+                profile.setUserInfo(user);
+                profilePopup.close();
+            })
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
+    }
+});
+const avatarPopup = new PopupWithForm({
+    selector: '.popup_type_avatar',
+    submitHandler: function (form, data) {
+        renderLoader(form, 'Сохраняем');
+        server.updateAvatar(data)
+            .then(user => {
+                profile.setUserInfo(user);
+                avatarPopup.close();
+            })
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
+    }
+});
+
+const cardPopup = new PopupWithForm({
+    selector: '.popup_type_card',
+    submitHandler: function (form, data) {
+        renderLoader(form, 'Сохраняем');
+        server.addCard(data)
+            .then(data => {
+                const cardElement = cardGenerator(data);
+                cardsSection.addItem(cardElement);
+                cardPopup.close();
+            })
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Сохранить');
+            })
+    }
+});
+
+const confirmPopup = new PopupWithForm({
+    selector: '.popup_type_confirm',
+    submitHandler: function (form, data) {
+        renderLoader(form, 'Удаляем');
+        server.removeCard(data.id)
+            .then(message => {
+                currentCard.delete();
+                confirmPopup.close();
+            })
+            .catch(logError)
+            .finally(() => {
+                renderLoader(form, 'Да');
+            })
+    }
+});
+
+const cardGenerator = (data) => {
+    const card = new Card({
+        card: data,
+        user: profile.getUserInfo(),
+        template: '#card',
+        handleCardClick: function (card) {
+            imagePopup.open(card);
+        },
+        handleDeleteClick: function (id, cardInstance) {
+            currentCard = cardInstance;
+            confirmPopup.open({ id });
+        },
+        handleLikeClick: function (id, buttonElement) {
+            if (buttonElement.classList.contains('element__like-button_active')) {
+                server.dislikeCard(id)
+                    .then(card => {
+                        buttonElement.classList.remove('element__like-button_active');
+                        buttonElement.nextElementSibling.textContent = card.likes.length;
+                    })
+                    .catch(logError);
+            } else {
+                server.likeCard(id)
+                    .then(card => {
+                        buttonElement.classList.add('element__like-button_active');
+                        buttonElement.nextElementSibling.textContent = card.likes.length;
+                    })
+                    .catch(logError);
+            }
+        }
+    });
+    return card.generate();
 }
 
-function formProfileSubmit(event) {
-    event.preventDefault();
-    formProfileButton.textContent = 'Сохранение...';
-    editProfileInfo(config, nameInput.value, occupationInput.value)
-        .then(data => {
-            nameField.textContent = data.name;
-            occupationField.textContent = data.about;
-            return data
-        })
-        .then(() => {
-            closePopup(popupProfile);
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
-        .finally(() => {
-            formProfileButton.textContent = 'Сохранить'
-        })
-}
-
-function formCardSubmit(event) {
-    event.preventDefault();
-    const newCard = {};
-    newCard.name = cardInput.value;
-    newCard.link = linkInput.value;
-    addNewCard(config, newCard)
-        .then(data => {
-            cardsContainer.prepend(createCard(data, handleDeleteCard));
-            return data
-        })
-        .then(() => {
-            formCard.reset();
-        })
-        .then(() => {
-            closePopup(popupCard);
-        })
-        .then(() => {
-            formCardButton.disabled = true;
-            formCardButton.classList.add('form__submit-button_disabled')
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err.status}, ${err.statusText}`)
-        })
-}
-
-function renderCards(cardsInfo) {
-    cardsInfo.forEach(card => {
-        cardsContainer.append(createCard(card, handleDeleteCard));
+Promise.all([server.getUser(), server.getCards()])
+    .then(([user, cards]) => {
+        // Добавить данные пользователя.
+        profile.setUserInfo(user);
+        // Создать и отрисовать карточки.
+        cardsSection = new Section({
+            items: cards,
+            renderer: function (item) {
+                const cardElement = cardGenerator(item);
+                cardsSection.setItem(cardElement);
+            }
+        },
+            '.elements');
+        cardsSection.renderItems();
     })
-}
+    .catch(logError);
 
-formCard.addEventListener('submit', formCardSubmit);
-formProfile.addEventListener('submit', formProfileSubmit);
-formAvatar.addEventListener('submit', handleAvtarFormSubmit);
-profileEditButton.addEventListener('click', openPropfilePopup);
-cardEditButton.addEventListener('click', () => { openPopup(popupCard) });
-avatarEditButton.addEventListener('click', () => { openPopup(popupAvatar) });
 
-enableValidation(validationConfig);
+profileButton.addEventListener('click', function () {
+    profilePopup.open(profile.getUserInfo());
+    profileFormValidator.reset();
+});
+
+avatarButton.addEventListener('click', function () {
+    avatarPopup.open();
+    avatarFormValidator.reset();
+});
+
+cardButton.addEventListener('click', function () {
+    cardPopup.open();
+    cardFormValidator.reset();
+});
+
+profileFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
+cardFormValidator.enableValidation();

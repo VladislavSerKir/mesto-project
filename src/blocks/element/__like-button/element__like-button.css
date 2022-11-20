@@ -11,11 +11,6 @@
     cursor: pointer;
 }
 
-.element__like-button_liked_true {
-    background-image: url(../../../images/liked.svg);
-    transition: 0.3s ease-in-out;
-}
-
 .element__like-button:hover {
     opacity: 0.5;
     transition: 0.3s ease-in-out;
